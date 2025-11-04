@@ -6,7 +6,7 @@ This project uses basic game loops, collision detection, and map loading from te
 
 ## 🖼️ Screenshot / Code Preview
 
-![Screenshot](<img width="763" height="601" alt="img" src="https://github.com/user-attachments/assets/f62b708c-127b-4c45-a9bc-94c339a8d4aa" />
+![Screenshot](<img.png>
 )
 
 
