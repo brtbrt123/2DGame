@@ -1,3 +1,32 @@
-<img width="765" height="608" alt="image" src="https://github.com/user-attachments/assets/3505faa9-16bb-4792-8eed-a22935bb8b74" />
-<img width="766" height="604" alt="image" src="https://github.com/user-attachments/assets/ad77324a-d2b4-4856-b802-353bd7f4a056" />
+# 2D Java Game
+
+A simple 2D tile-based game made using pure Java.  
+This project uses basic game loops, collision detection, and map loading from text files.
+
+
+## 🖼️ Screenshot / Code Preview
+
+![Screenshot](<img width="765" height="608" alt="image" src="https://github.com/user-attachments/assets/3505faa9-16bb-4792-8eed-a22935bb8b74" />)
+
+
+## 💡 How It Works
+
+- **Main.java** → Starts the game window and main loop  
+- **GamePanel.java** → Handles drawing, updating, and player input  
+- **TileManager.java** → Loads the map from `.txt` files and renders tiles  
+- **CollisionChecker.java** → Detects collision between the player and tiles  
+- **Entity.java** → Base class for all game objects (player, NPCs, etc.)  
+- **ObjectManager.java** → Manages items or obstacles in the map  
+
+
+## 🕹️ How to Run
+
+1. Open the project in your IDE (Eclipse, IntelliJ, or VS Code)
+2. Make sure you have JDK 17 or later installed  
+3. Run the `Main.java` file
+
+Or from terminal:
+```bash
+javac Main.java
+java Main
 
