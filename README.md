@@ -1,8 +1,6 @@
 # 2D Java Game
 
 A simple 2D tile-based game made using pure Java.  
-This project uses basic game loops, collision detection, and map loading from text files.
-
 
 ## 🖼️ Screenshot / Code Preview
 
