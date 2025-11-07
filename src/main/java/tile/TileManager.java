@@ -1,8 +1,12 @@
 package tile;
 
+import javax.xml.parsers.*;
+import org.w3c.dom.*;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -25,6 +29,7 @@ public class TileManager {
         mapTileNum = new int[numLayers][gp.maxWorldCol][gp.maxWorldRow];
         
         getTileImage();  // Load tile images (unchanged)
+        loadTSXTileset("/Tiles2/tile_1527.tsx");
         
         // Load from JSON instead of text files
         loadTiledMap("/map/haha.json");  // Replace with your JSON file path
@@ -140,6 +145,67 @@ public class TileManager {
             e.printStackTrace();
         }
     }
+    
+    public void loadTSXTileset(String tsxPath) {
+        try {
+            // Load TSX XML from resources
+            InputStream tsxStream = getClass().getResourceAsStream(tsxPath);
+            if (tsxStream == null) {
+                System.out.println("ERROR: TSX file not found -> " + tsxPath);
+                return;
+            }
+
+            DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            Document doc = builder.parse(tsxStream);
+
+            Element tileset = (Element) doc.getElementsByTagName("tileset").item(0);
+            int tileWidth = Integer.parseInt(tileset.getAttribute("tilewidth"));
+            int tileHeight = Integer.parseInt(tileset.getAttribute("tileheight"));
+
+            Element imageElement = (Element) doc.getElementsByTagName("image").item(0);
+            String source = imageElement.getAttribute("source");
+            String imagePath = source.startsWith("/") ? source : "/Tiles2/" + new File(source).getName();
+
+            InputStream imageStream = getClass().getResourceAsStream(imagePath);
+            if (imageStream == null) {
+                System.out.println("ERROR: Cannot find image resource: " + imagePath);
+                return;
+            }
+
+            BufferedImage fullImage = ImageIO.read(imageStream);
+            imageStream.close();
+
+            if (fullImage == null) {
+                System.out.println("Failed to load tileset image: " + imagePath);
+                return;
+            }
+
+            int rows = fullImage.getHeight() / tileHeight;
+            int cols = fullImage.getWidth() / tileWidth;
+            int index = 0;
+
+            System.out.println("Cutting tileset: " + imagePath);
+            for (int y = 0; y < rows; y++) {
+                for (int x = 0; x < cols; x++) {
+                    if (index >= tile.length) return;
+
+                    Tile newTile = new Tile();
+                    newTile.image = fullImage.getSubimage(
+                        x * tileWidth, y * tileHeight, tileWidth, tileHeight
+                    );
+                    newTile.collision = autoDetectCollision(imagePath);
+                    tile[index++] = newTile;
+                }
+            }
+
+            System.out.println("Finished slicing TSX tileset (" + index + " tiles).");
+
+        } catch (Exception e) {
+            System.out.println("Error loading TSX: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
 
     private boolean autoDetectCollision(String fileName) {
         String lowerName = fileName.toLowerCase();
