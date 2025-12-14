@@ -1,6 +1,6 @@
 # 2D Java Game
 
-A simple 2D tile-based game made using pure Java.  
+A simple 2D tile-based game map made using pure Java.  
 
 ## 🖼️ Screenshot / Code Preview
 
